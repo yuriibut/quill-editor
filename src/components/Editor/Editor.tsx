@@ -8,10 +8,13 @@ import Underline from 'quill/formats/underline';
 import List, {ListItem} from 'quill/formats/list';
 import BlockQuote from 'quill/formats/blockquote';
 import Link from 'quill/formats/link';
+import Tooltip from 'quill/ui/tooltip';
+import SnowTheme from 'quill/themes/snow';
 import DaTheme from '../../theme/theme';
 import '../../theme/theme.scss';
 
 export interface EditorProps {
+    placeholder?: string;
 }
 
 export class Editor extends React.Component<EditorProps, {}> {
@@ -23,6 +26,7 @@ export class Editor extends React.Component<EditorProps, {}> {
         super(props);
         Quill.register({
             'modules/toolbar': Toolbar,
+            'themes/snow': SnowTheme,
             'themes/da': DaTheme,
             'formats/header': Header,
             'formats/bold': Bold,
@@ -31,15 +35,18 @@ export class Editor extends React.Component<EditorProps, {}> {
             'formats/list': List,
             'formats/list/item': ListItem,
             'formats/blockquote': BlockQuote,
-            'formats/link': Link
+            'formats/link': Link,
+            'ui/tooltip': Tooltip,
         });
     }
 
     componentDidMount() {
+        const {placeholder} = this.props;
         this.quill = new Quill(this.editor, {
             modules: {
                 toolbar: this.toolbar
             },
+            placeholder,
             theme: 'da'
         });
     }
@@ -76,14 +83,14 @@ export class Editor extends React.Component<EditorProps, {}> {
                 <div ref={editor => this.editor = editor}/>
 
                 <div ref={toolbar => this.toolbar = toolbar} style={{marginTop: 30}}>
-                    <button className="ql-bold" data-toggle="tooltip" data-placement="bottom" title="Bold"/>
-                    <button className="ql-italic"/>
-                    <button className="ql-underline"/>
-                    <button className="ql-header"/>
-                    <button className="ql-list" value="ordered"/>
-                    <button className="ql-list" value="bullet"/>
-                    <button className="ql-blockquote"/>
-                    <button className="ql-link"/>
+                    <button className="ql-bold" data-toggle="tooltip" data-placement="bottom" title="Bold">B</button>
+                    <button className="ql-italic">I</button>
+                    <button className="ql-underline">_</button>
+                    <button className="ql-header">Tt</button>
+                    <button className="ql-list" value="ordered">OL</button>
+                    <button className="ql-list" value="bullet">UL</button>
+                    <button className="ql-blockquote">"</button>
+                    <button className="ql-link">L</button>
                 </div>
             </div>
         );
