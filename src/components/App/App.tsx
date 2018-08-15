@@ -1,6 +1,6 @@
-import * as React from "react";
+import * as React from 'react';
 import {Editor} from '../Editor/Editor';
-import './app.scss';
+import * as style from './app.scss';
 
 export interface AppProps {
 }
@@ -8,7 +8,7 @@ export interface AppProps {
 export class App extends React.Component<AppProps, {}> {
     render() {
         return (
-            <div className="app">
+            <div className={style.app}>
                 <Editor placeholder="Placeholder..."/>
             </div>
         );

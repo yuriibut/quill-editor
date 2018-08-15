@@ -1,0 +1,10 @@
+@import "./fonts";
+
+:global {
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: Calibre, sans-serif;
+  }
+}

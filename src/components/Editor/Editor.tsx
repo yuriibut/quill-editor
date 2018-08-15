@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Quill from 'quill/core';
+// import Emitter from 'quill/core/emitter';
 import Toolbar from 'quill/modules/toolbar';
 import Header from 'quill/formats/header';
 import Bold from 'quill/formats/bold';
@@ -10,20 +11,35 @@ import BlockQuote from 'quill/formats/blockquote';
 import Link from 'quill/formats/link';
 import Tooltip from 'quill/ui/tooltip';
 import SnowTheme from 'quill/themes/snow';
+import Image from 'quill/formats/image';
+import Video from 'quill/formats/video';
 import DaTheme from '../../theme/theme';
-import '../../theme/theme.scss';
+import TextToolbar from '../Toolbar/Toolbar';
+
+import 'quill/dist/quill.core.css';
+import * as style from './editor.scss';
 
 export interface EditorProps {
     placeholder?: string;
 }
 
-export class Editor extends React.Component<EditorProps, {}> {
+export interface EditorState {
+    selected: boolean;
+    rangeBounds?: any;
+}
+
+export class Editor extends React.Component<EditorProps, EditorState> {
     quill: any;
     editor: Element;
     toolbar: Element;
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            selected: false
+        };
+
         Quill.register({
             'modules/toolbar': Toolbar,
             'themes/snow': SnowTheme,
@@ -36,6 +52,8 @@ export class Editor extends React.Component<EditorProps, {}> {
             'formats/list/item': ListItem,
             'formats/blockquote': BlockQuote,
             'formats/link': Link,
+            'formats/image': Image,
+            'formats/video': Video,
             'ui/tooltip': Tooltip,
         });
     }
@@ -49,7 +67,20 @@ export class Editor extends React.Component<EditorProps, {}> {
             placeholder,
             theme: 'da'
         });
+
+        // this.quill.addContainer(this.toolbar);
+        // this.quill.on(Emitter.events.EDITOR_CHANGE, this.handleChange);
     }
+
+    // handleChange = (event, range, oldRange, source) => {
+    //     // console.log(event, range, oldRange, source);
+    //     // const rangeBounds = this.quill.getBounds(range);
+    //     //
+    //     // this.setState({
+    //     //     selected: event === Emitter.events.SELECTION_CHANGE && range && range.length > 0,
+    //     //     rangeBounds,
+    //     // });
+    // };
 
     //
     // handleClick = () => {
@@ -79,19 +110,9 @@ export class Editor extends React.Component<EditorProps, {}> {
 
     render() {
         return (
-            <div>
+            <div className={style.editor}>
                 <div ref={editor => this.editor = editor}/>
-
-                <div ref={toolbar => this.toolbar = toolbar} style={{marginTop: 30}}>
-                    <button className="ql-bold" data-toggle="tooltip" data-placement="bottom" title="Bold">B</button>
-                    <button className="ql-italic">I</button>
-                    <button className="ql-underline">_</button>
-                    <button className="ql-header">Tt</button>
-                    <button className="ql-list" value="ordered">OL</button>
-                    <button className="ql-list" value="bullet">UL</button>
-                    <button className="ql-blockquote">"</button>
-                    <button className="ql-link">L</button>
-                </div>
+                <TextToolbar onMounted={toolbarNode => this.toolbar = toolbarNode} />
             </div>
         );
     }

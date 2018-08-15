@@ -1,0 +1,27 @@
+.button {
+  color: #ffffff;
+  padding: 7px;
+  background: transparent;
+  border: none;
+  display: block;
+  float: left;
+  outline: none;
+  cursor: pointer;
+  fill: #ffffff;
+  position: relative;
+
+  svg {
+    display: block;
+    height: 24px;
+    width: 24px;
+  }
+
+  &:hover {
+    fill: #06070d;
+    background: linear-gradient(220deg, #0f7, #3197ef);
+  }
+
+  &:global(.ql-active) {
+    fill: #00e59b;
+  }
+}

@@ -1,4 +1,6 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -7,10 +9,15 @@ module.exports = {
     path: __dirname + '/dist'
   },
   devtool: 'source-map',
+  devServer: {
+    hot: true
+  },
   plugins: [
+    new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
       template: 'index.html'
-    })
+    }),
+    new webpack.HotModuleReplacementPlugin()
   ],
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
@@ -29,22 +36,43 @@ module.exports = {
       { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
       },
       {
         test: /\.scss$/,
         use: [
           'style-loader',
-          'css-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true
+            }
+          },
           'sass-loader'
         ]
       },
       {
         test: /\.svg$/,
-        loader: 'html-loader',
-        options: {
-          minimize: true
-        }
+        oneOf: [
+          {
+            exclude: __dirname + '/node_modules',
+            use: {
+              loader: 'svg-react-loader'
+            }
+          },
+          {
+            exclude: __dirname + '/src',
+            use: {
+              loader: 'html-loader',
+              options: {
+                minimize: true
+              }
+            }
+          },
+        ]
       }
     ]
   },
