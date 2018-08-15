@@ -5,10 +5,15 @@
   background: #161a1f;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .36);
   padding: 2px;
+  overflow: auto;
 
   > button:not(:last-of-type) {
     margin-right: 2px;
   }
+}
+
+.toolbarButtonWrapper {
+  float: left;
 }
 
 .toolbar_visible {

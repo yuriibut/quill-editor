@@ -9,7 +9,21 @@ import UnorderedListIcon from '../../assets/icons/unordered-list.svg';
 import BlockQuoteIcon from '../../assets/icons/block-quote.svg';
 import LinkIcon from '../../assets/icons/link.svg';
 
-import ToolbarButton from "../ToolbarButton/ToolbarButton";
+import ToolbarButton from '../ToolbarButton/ToolbarButton';
+import Separator from '../Separator/Separator';
+
+const buttons = [
+    <ToolbarButton className="ql-bold"><BoldIcon/></ToolbarButton>,
+    <ToolbarButton className="ql-italic"><ItalicIcon/></ToolbarButton>,
+    <ToolbarButton className="ql-underline"><UnderlineIcon/></ToolbarButton>,
+    <Separator/>,
+    <ToolbarButton className="ql-header"><ParagraphIcon/></ToolbarButton>,
+    <ToolbarButton className="ql-list" value="ordered"><OrderedListIcon/></ToolbarButton>,
+    <ToolbarButton className="ql-list" value="bullet"><UnorderedListIcon/></ToolbarButton>,
+    <ToolbarButton className="ql-blockquote"><BlockQuoteIcon/></ToolbarButton>,
+    <Separator/>,
+    <ToolbarButton className="ql-link"><LinkIcon/></ToolbarButton>
+];
 
 export interface ToolbarProps {
     onMounted?: Function;
@@ -26,30 +40,9 @@ export default class Toolbar extends React.Component<ToolbarProps> {
     render() {
         return (
             <div className={style.toolbar} ref={this.handleRef}>
-                <ToolbarButton className="ql-bold">
-                    <BoldIcon/>
-                </ToolbarButton>
-                <ToolbarButton className="ql-italic">
-                    <ItalicIcon/>
-                </ToolbarButton>
-                <ToolbarButton className="ql-underline">
-                    <UnderlineIcon/>
-                </ToolbarButton>
-                <ToolbarButton className="ql-header">
-                    <ParagraphIcon/>
-                </ToolbarButton>
-                <ToolbarButton className="ql-list" value="ordered">
-                    <OrderedListIcon/>
-                </ToolbarButton>
-                <ToolbarButton className="ql-list" value="bullet">
-                    <UnorderedListIcon/>
-                </ToolbarButton>
-                <ToolbarButton className="ql-blockquote">
-                    <BlockQuoteIcon/>
-                </ToolbarButton>
-                <ToolbarButton className="ql-link">
-                    <LinkIcon/>
-                </ToolbarButton>
+                {buttons.map(button => (
+                    <div className={style.toolbarButtonWrapper}>{button}</div>
+                ))}
                 {/*<ToolbarButton className="ql-image">*/}
                 {/*Image*/}
                 {/*</ToolbarButton>*/}
